@@ -1,0 +1,22 @@
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+.navbar-toggler {
+    border-color: rgba(255,255,255,0.7);
+}
+.navbar-toggler-icon {
+    filter: invert(1);
+}
+
+
+.carousel-item img {
+    height: 100vh;        
+    object-fit: cover;    
+    width: 100%;
+    display: block;
+}
