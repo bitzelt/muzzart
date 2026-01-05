@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Test Camara Suave</title>
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.3/lib/p5.min.js"></script>
+</head>
+<body style="margin:0; overflow:hidden;">
+<script>
+
+let cam;
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  pixelDensity(1);
+  cam = createCapture(VIDEO);
+  cam.size(640, 480); // tamaño de la cámara
+  cam.hide();
+}
+
+function draw() {
+  background(0);
+  cam.loadPixels();
+  loadPixels();
+
+  for (let y = 0; y < cam.height; y++) {
+    for (let x = 0; x < cam.width; x++) {
+      let i = (x + y * cam.width) * 4;
+      let r = cam.pixels[i];
+      let g = cam.pixels[i + 1];
+      let b = cam.pixels[i + 2];
+
+      let brightness = (r + g + b) / 3;
+      let v = brightness > 120 ? 255 : 0; // mismo threshold que antes
+
+      // interpolamos al tamaño del canvas sin saltos perceptibles
+      let sx = map(x, 0, cam.width, 0, width);
+      let sy = map(y, 0, cam.height, 0, height);
+
+      let di = (int(sx) + int(sy) * width) * 4;
+      pixels[di] = v;
+      pixels[di + 1] = v;
+      pixels[di + 2] = v;
+      pixels[di + 3] = 255;
+    }
+  }
+
+  updatePixels();
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
+
+</script>
+</body>
+</html>
